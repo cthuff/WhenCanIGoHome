@@ -1,0 +1,185 @@
+<html lang="en">
+    <head>
+    <meta name="viewport" content="device-width, initial-scale=1.0">
+    <title>Document</title>
+        <style>
+        body {
+            padding: 25px;
+            background-color: black;
+            color: white;
+            font-size: 25px;
+        }
+        .dark-mode {
+            background-color: black;
+            color: white;
+        }
+        .light-mode {
+            background-color: white;
+            color: black;
+        }
+        input {
+            font-size: medium;
+        }
+        </style>
+    </head>
+<body>
+<form id="form">
+    <div style="text-align: center;">
+        <div style="padding-top: 10px;">
+            <label for="startTime">Start time: </label>
+            <input type="time" value="08:00" id="startTime" style="font-size: medium;">
+        </div>
+        <div style="padding-top: 15px;">
+            <label for="lunchStart">Lunch Start: </label>
+            <input type="time" value="12:00" id="lunchStart">
+            <br>
+            <label for="lunchEnd">Lunch End: </label>
+            <input type="time" value ="12:30" id="lunchEnd">
+            <br>
+        </div>
+        <div style="padding-top: 15;">
+            <label for="shiftTime">Shift Length: </label>
+            <input type="number" min="1" max="12" value="8" id="shiftTime" onsubmit="return false">
+        </div>
+        <p>
+        You can clock out at <span id="clockOut" style="color: cyan;"><b>n/a</span>.
+        </p>
+        <div>
+            <button id="darkMode" onclick="toggle()">LightMode</button>
+        </div>
+        <br>
+        <div>
+            <button style="font-size: 14px;" id="canIGoHome" onclick="goHome()">Can I Go Home?</button>
+        </div>
+    </div>
+  </form>
+</body>
+<footer>
+    <div style="text-align: center;">
+        <p style="font-size: small;">Made by <a id = "webpage" style="color: cyan;" href="https://craighuff.com" target="_blank"> Craig Huff</a></p>
+    </div>
+</footer>
+<script>
+
+    function goHome() {
+        var today = new Date();
+        var timeString = today.getHours() > 12 ? today.getHours() % 12 + ":" + today.getMinutes() + "PM" : today.getHours() % 12 + ":" + today.getMinutes() + "AM";
+        console.log(timeString + " seconds: " + timeValue(timeString));
+        console.log(document.getElementById("clockOut").innerText+ " seconds: " + timeValue(document.getElementById("clockOut").innerText));
+        if (timeValue(document.getElementById("clockOut").innerText) < timeValue(timeString)) {
+            alert("Get the fuck out of here!");
+        } else {
+            alert("Sorry, you're stuck here");
+        }
+    }
+
+    function toggle(){
+        if (document.getElementById("clockOut").style.color == "cyan")
+        {
+            document.getElementById("darkMode").innerText = "DarkMode"
+            lightMode();
+        } else {
+            document.getElementById("darkMode").innerText = "LightMode"
+            darkMode();
+        }
+    }
+
+    function darkMode() {
+      var element = document.body;
+      var content = document.getElementById("DarkModetext");
+      document.getElementById("clockOut").style.color = "cyan";
+      document.getElementById("webpage").style.color = "cyan";
+      element.className = "dark-mode";
+      content.innerText = "Dark Mode is ON";
+
+    }
+    function lightMode() {
+      var element = document.body;
+      var content = document.getElementById("DarkModetext");
+      document.getElementById("clockOut").style.color = "purple";
+      document.getElementById("webpage").style.color = "purple";
+      element.className = "light-mode";
+      content.innerText = "Dark Mode is OFF";
+    }
+</script>
+
+<script>
+    var startTime = document.getElementById("startTime");
+    var lunchStart = document.getElementById("lunchStart");
+    var lunchEnd = document.getElementById("lunchEnd");
+    var shiftTime = document.getElementById("shiftTime")
+    var clockOutSpan = document.getElementById("clockOut");
+
+    startTime.addEventListener("input", function() {
+        logic();
+    }, false);
+
+    lunchStart.addEventListener("input", function() {
+        logic();
+    }, false);
+
+    lunchEnd.addEventListener("input", function() {
+        logic();
+    }, false);
+
+    shiftTime.addEventListener("input", function() {
+        logic();
+    }, false);
+
+    function logic(){
+        var seconds = timeValue(startTime.value) + (timeValue(lunchEnd.value) - timeValue(lunchStart.value)) + (shiftTime.value * 3600);
+        var time = timeString(seconds);
+        clockOutSpan.innerText = time;
+    }
+
+    function timeValue(time){
+        var seconds = 0;
+        for (let i = 0; i < time.length; i++) {
+            if(time[i] == ":" || time[i] == "A" || time[i] == "P" || time[i] == "M"){ continue;}
+            else if(i == 0){
+                if(time[time.length - 2] == "P"){
+                    seconds += parseInt(time[i]) * 10 * 3600 * 12;
+                }
+                if(time[i + 1] == ":"){seconds += parseInt(time[i]) * 3600;}
+                else {seconds += parseInt(time[i]) * 10 * 3600;}
+            }
+            else if(i == 1){
+                seconds += parseInt(time[i]) * 3600;
+            } 
+            else if(i == 3){
+                seconds += parseInt(time[i]) * 10 * 60;
+            } 
+            else {
+                seconds += parseInt(time[i]) * 60;
+            }
+        }
+        return seconds;
+    }
+
+    function timeString(time){
+        var totalSeconds = time;
+        hours =  Math.floor(totalSeconds / 3600);
+        minutes = Math.floor(totalSeconds % 3600 / 60)
+        minutes < 10 ? minutes = "0" + minutes.toString() : minutes = minutes.toString()
+
+        if(hours == hours % 12){
+            return hours.toString() + ":" + minutes+ "AM"; 
+        }
+        else {
+            hours % 12 > 0 ? hours = hours % 12 : hours 
+            return hours.toString() + ":" + minutes + "PM";
+        }
+    }
+</script>
+
+<script>
+    const form = document.getElementById('form');
+    form.onload = logic()
+        form.onsubmit = submit;
+    
+        function submit(event) {
+        // For this example, don't actually submit the form
+        event.preventDefault();
+        }
+</script>
+</html>
