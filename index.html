@@ -48,11 +48,7 @@
         You can clock out at <span id="clockOut" style="color: cyan;"><b>n/a</span>.
         </p>
         <div>
-            <button id="darkMode" onclick="toggle()">LightMode</button>
-        </div>
-        <br>
-        <div>
-            <button style="font-size: 14px;" id="canIGoHome" onclick="goHome()">Can I Go Home?</button>
+            <button style="font-size: 15px;" id="canIGoHome" onclick="goHome()">Can I Go Home?</button>
         </div>
     </div>
   </form>
@@ -60,6 +56,11 @@
 <footer>
     <div style="text-align: center;">
         <p style="font-size: small;">Made by <a id = "webpage" style="color: cyan;" href="https://craighuff.com" target="_blank"> Craig Huff</a></p>
+        <br>
+        <div>
+            <button id="darkMode" onclick="toggle()">LightMode</button>
+        </div>
+        
     </div>
 </footer>
 <script>
@@ -89,20 +90,16 @@
 
     function darkMode() {
       var element = document.body;
-      var content = document.getElementById("DarkModetext");
       document.getElementById("clockOut").style.color = "cyan";
       document.getElementById("webpage").style.color = "cyan";
       element.className = "dark-mode";
-      content.innerText = "Dark Mode is ON";
 
     }
     function lightMode() {
       var element = document.body;
-      var content = document.getElementById("DarkModetext");
       document.getElementById("clockOut").style.color = "purple";
       document.getElementById("webpage").style.color = "purple";
       element.className = "light-mode";
-      content.innerText = "Dark Mode is OFF";
     }
 </script>
 
@@ -113,34 +110,26 @@
     var shiftTime = document.getElementById("shiftTime")
     var clockOutSpan = document.getElementById("clockOut");
 
-    startTime.addEventListener("input", function() {
-        logic();
-    }, false);
+    startTime.addEventListener("input", function() { logic(); }, false);
+    lunchStart.addEventListener("input", function() { logic(); }, false);
+    lunchEnd.addEventListener("input", function() { logic(); }, false);
+    shiftTime.addEventListener("input", function() {logic();}, false);
 
-    lunchStart.addEventListener("input", function() {
-        logic();
-    }, false);
-
-    lunchEnd.addEventListener("input", function() {
-        logic();
-    }, false);
-
-    shiftTime.addEventListener("input", function() {
-        logic();
-    }, false);
-
+    //Calls the two functions to modify the text on when they can clock out 
     function logic(){
         var seconds = timeValue(startTime.value) + (timeValue(lunchEnd.value) - timeValue(lunchStart.value)) + (shiftTime.value * 3600);
         var time = timeString(seconds);
         clockOutSpan.innerText = time;
     }
-
+    //Becasue we're dealing with 24 hours time and AM and PM times, convert all of it to seconds to also account for shiftlength * 3600
     function timeValue(time){
         var seconds = 0;
         for (let i = 0; i < time.length; i++) {
+            //Since the strings are predictable, I don't need regex and can use pattern matching here to skip the locations with non-numbers
             if(time[i] == ":" || time[i] == "A" || time[i] == "P" || time[i] == "M"){ continue;}
             else if(i == 0){
                 if(time[time.length - 2] == "P"){
+                    //Handles adding the 10 hours if in PM format 
                     seconds += parseInt(time[i]) * 10 * 3600 * 12;
                 }
                 if(time[i + 1] == ":"){seconds += parseInt(time[i]) * 3600;}
@@ -158,7 +147,7 @@
         }
         return seconds;
     }
-
+    //Converts the time in seconds back to a string in format HH:MM(AM/PM)
     function timeString(time){
         var totalSeconds = time;
         hours =  Math.floor(totalSeconds / 3600);
@@ -175,11 +164,12 @@
     }
 </script>
 
+<!-- This loads the time when the page first appears  -->
 <script>
+    document.onsubmit = submit
     const form = document.getElementById('form');
     form.onload = logic()
-        form.onsubmit = submit;
-    
+
         function submit(event) {
         // For this example, don't actually submit the form
         event.preventDefault();
