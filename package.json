@@ -1,0 +1,22 @@
+{
+  "name": "whencanigohome",
+  "version": "1.0.0",
+  "description": "\"A Simple Clock Out Calculator\"",
+  "main": "main.js",
+  "scripts": {
+      "start": "electron ." 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cthuff/WhenCanIGoHome.git"
+  },
+  "author": "Craig Huff",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/cthuff/WhenCanIGoHome/issues"
+  },
+  "homepage": "https://github.com/cthuff/WhenCanIGoHome#readme",
+  "devDependencies": {
+    "electron": "^17.0.1"
+  }
+}
