@@ -96,7 +96,7 @@
 
 <script>
     //initalizes the timer so it can be stopped an started each time 
-    let timer;
+    var timer;
     var totalSeconds;
 
     //the HTML elements that will be manipulated by this code
@@ -121,10 +121,17 @@
         clockOutSpan.innerText = time;
         //gets the current time to compare to the total shift time
         let date = new Date();
-        let now = (date.getHours() * 3600) + (date.getMinutes() * 60) + date.getSeconds();
+        let now = currentTime();
          //clears the previous timer that's running to prepare a new one 
-        (totalSeconds - now) > 0 ? timer = setInterval(function() {timeRemaining.innerText = remaining(totalSeconds - now); }, 400) : timeRemaining.innerText = "0:00:00";
+        (totalSeconds - now) > 0 ? timer = setInterval(function() {timeRemaining.innerText = remaining(totalSeconds - now); logic();}, 400) : timeRemaining.innerText = "0:00:00";
     }
+
+    function currentTime() {
+        let date = new Date();
+        return (date.getHours() * 3600) + (date.getMinutes() * 60) + date.getSeconds();
+        
+    }
+
     //Becasue we're dealing with 24 hours time and AM and PM times, convert all of it to seconds to also account for shiftlength * 3600
     function timeValue(time){
         var seconds = 0;
@@ -171,11 +178,12 @@
      function remaining(time){
         var totalTime = time;
         hours =  Math.floor(totalTime / 3600);
-        minutes = Math.floor(totalTime % 3600 / 60) - 1;
+        minutes = Math.floor(totalTime % 3600 / 60);
         minutes < 10 ? minutes = "0" + minutes.toString() : minutes = minutes.toString();
-        seconds = 60 - new Date().getSeconds();
+        new Date().getSeconds() > 0 ? seconds = 60 - new Date().getSeconds() : seconds = "0"
         seconds < 10 ? seconds = "0" + seconds.toString() : seconds = seconds.toString();
 
+        
         if(hours == hours % 12){
             return hours.toString() + ":" + minutes + ":" + seconds; 
         }
