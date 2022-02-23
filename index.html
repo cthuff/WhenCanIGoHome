@@ -45,9 +45,9 @@
             <input type="number" min="1" max="12" value="8" id="shiftTime">
         </div>
         <p>
-        You can clock out at <span id="clockOut" style="color: #82EC5A;"><b>n/a</b></span>.
+        You can go home at <span id="clockOut" style="color: cyan;">n/a</span>.
         <br>
-        Time Remaining: <span id="timeRemaining" style="color: #C45AEC;"><b>n/a</b></span>
+        Time Remaining: <span id="timeRemaining" style="color: #C45AEC;">0:00:00</span>
         </p>
         <div>
             <button style="font-size: 15px;" id="canIGoHome" onclick="goHome()">Can I Go Home?</button>
@@ -80,14 +80,14 @@
 
     function darkMode() {
       var element = document.body;
-      document.getElementById("clockOut").style.color = "#82EC5A";
+      document.getElementById("clockOut").style.color = "cyan";
       document.getElementById("webpage").style.color = "#82EC5A";
       element.className = "dark-mode";
       dark = true;
     }
     function lightMode() {
       var element = document.body;
-      document.getElementById("clockOut").style.color = "#3A940E";
+      document.getElementById("clockOut").style.color = "#008DFF";
       document.getElementById("webpage").style.color =  "#3A940E";
       element.className = "light-mode";
       dark = false;
@@ -97,6 +97,7 @@
 <script>
     //initalizes the timer so it can be stopped an started each time 
     let timer;
+    var totalSeconds;
 
     //the HTML elements that will be manipulated by this code
     var startTime = document.getElementById("startTime");
@@ -115,14 +116,14 @@
     //Calls the two functions to modify the text on when they can clock out and time remaining
     function logic(){
         clearInterval(timer);
-        var seconds = timeValue(startTime.value) + (timeValue(lunchEnd.value) - timeValue(lunchStart.value)) + (shiftTime.value * 3600);
-        var time = timeString(seconds);
+        totalSeconds = timeValue(startTime.value) + (timeValue(lunchEnd.value) - timeValue(lunchStart.value)) + (shiftTime.value * 3600);
+        var time = timeString(totalSeconds);
         clockOutSpan.innerText = time;
         //gets the current time to compare to the total shift time
         let date = new Date();
-        var now = (date.getHours() * 3600) + (date.getMinutes() * 60);
+        let now = (date.getHours() * 3600) + (date.getMinutes() * 60) + date.getSeconds();
          //clears the previous timer that's running to prepare a new one 
-        (seconds - now) > 0 ? timer = setInterval(function() {timeRemaining.innerText = remaining(seconds - now); }, 1000) : timeRemaining.innerText = "0:00:00";
+        (totalSeconds - now) > 0 ? timer = setInterval(function() {timeRemaining.innerText = remaining(totalSeconds - now); }, 400) : timeRemaining.innerText = "0:00:00";
     }
     //Becasue we're dealing with 24 hours time and AM and PM times, convert all of it to seconds to also account for shiftlength * 3600
     function timeValue(time){
@@ -152,9 +153,9 @@
     }
     //Converts the time in seconds back to a string in format HH:MM(AM/PM)
     function timeString(time){
-        var totalSeconds = time;
-        hours =  Math.floor(totalSeconds / 3600);
-        minutes = Math.floor(totalSeconds % 3600 / 60);
+        var totalTime = time;
+        hours =  Math.floor(totalTime / 3600);
+        minutes = Math.floor(totalTime % 3600 / 60);
         minutes < 10 ? minutes = "0" + minutes.toString() : minutes = minutes.toString();
 
         if(hours == hours % 12){
@@ -166,11 +167,11 @@
         }
     }
 
-     //Converts the time in seconds back to a string in format HH:MM(AM/PM)
+     //Converts the time in seconds back to a string in format HH:MM:SS for the countdown timer
      function remaining(time){
-        var totalSeconds = time;
-        hours =  Math.floor(totalSeconds / 3600);
-        minutes = Math.floor(totalSeconds % 3600 / 60);
+        var totalTime = time;
+        hours =  Math.floor(totalTime / 3600);
+        minutes = Math.floor(totalTime % 3600 / 60) - 1;
         minutes < 10 ? minutes = "0" + minutes.toString() : minutes = minutes.toString();
         seconds = 60 - new Date().getSeconds();
         seconds < 10 ? seconds = "0" + seconds.toString() : seconds = seconds.toString();
@@ -186,11 +187,9 @@
 
     //Calculates if the client can go home based on the current time and their clockout time 
     function goHome() {
-        var today = new Date();
-        var timeString = today.getHours() > 12 ? today.getHours() % 12 + ":" + today.getMinutes() + "PM" : today.getHours() % 12 + ":" + today.getMinutes() + "AM";
-        console.log(timeString + " seconds: " + timeValue(timeString));
-        console.log(document.getElementById("clockOut").innerText+ " seconds: " + timeValue(document.getElementById("clockOut").innerText));
-        if (timeValue(document.getElementById("clockOut").innerText) < timeValue(timeString)) {
+            let date = new Date();
+            let now = (date.getHours() * 3600) + (date.getMinutes() * 60);
+            if((totalSeconds - now) < 60) {
             alert("Get the fuck out of here!");
         } else {
             alert("Sorry, you're stuck here");
@@ -200,13 +199,13 @@
 </script>
 
 <!-- This loads the time when the page first appears  -->
-<script>
-    document.onsubmit = submit
+<script>    
     const form = document.getElementById('form');
     form.onload = logic()
-
+    document.onsubmit = submit
         function submit(event) {
-        // For this example, don't actually submit the form
+        // This prevents the form from being submitted and the page reloading
+        // Now when enter is pressed it will hit the "Can I Clock Out?" Button
         event.preventDefault();
         }
 </script>
