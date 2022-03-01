@@ -24,6 +24,7 @@
       var element = document.body;
       document.getElementById("clockOut").style.color = "cyan";
       document.getElementById("webpage").style.color = "#82EC5A";
+      document.getElementById("file").style.color =  "#82EC5A";
       element.className = "dark-mode";
       dark = true;
     }
@@ -32,6 +33,7 @@
       var element = document.body;
       document.getElementById("clockOut").style.color = "#008DFF";
       document.getElementById("webpage").style.color =  "#3A940E";
+      document.getElementById("file").style.color =  "#3A940E";
       element.className = "light-mode";
       dark = false;
     }
