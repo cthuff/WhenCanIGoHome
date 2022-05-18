@@ -49,12 +49,16 @@
     var shiftTime = document.getElementById("shiftTime")
     var clockOutSpan = document.getElementById("clockOut");
     var timeRemaining = document.getElementById("timeRemaining");
+    var noLunch = document.getElementById("noLunch");
 
     //Listerners for each of the inputs to change the code immediatly when new entries are given
     startTime.addEventListener("input", function() { logic(); }, false);
-    lunchStart.addEventListener("input", function() { logic(); }, false);
-    lunchEnd.addEventListener("input", function() { logic(); }, false);
-    shiftTime.addEventListener("input", function() {logic();}, false);
+    // lunchStart.addEventListener("input", function() { logic(); }, false);
+    lunchStart.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; logic(); }}, false);
+    lunchEnd.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; logic(); }}, false);
+    // lunchEnd.addEventListener("input", function() { logic(); }, false);
+    shiftTime.addEventListener("input", function() { logic(); }, false);
+    noLunch.addEventListener("change", function() { noLunchFunc(); }, false);
 
     //Calls the two functions to modify the text on when they can clock out and time remaining
     function logic(){
@@ -144,6 +148,15 @@
         } else {
             alert("Sorry, you're stuck here");
         }
+    }
+
+    //
+    function noLunchFunc(){
+        if(noLunch.checked == true)
+            document.getElementById("lunchText").innerText = "No Lunch Today";
+        else 
+            document.getElementById("lunchText").innerText = "No Lunch Today?";
+        lunchEnd.value = lunchStart.value;
     }
 
 //This loads the time when the page first appears 

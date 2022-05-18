@@ -3,7 +3,7 @@
     <meta name="apple-mobile-web-app-title" content="When Can I Go Home?">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="/myicon.icns">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta http-equiv="Cache-control" content="public"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self' ">
     <meta name="viewport" content="device-width, initial-scale=1.0 maximum-scale=2.0">
@@ -25,6 +25,10 @@
             <label for="lunchEnd">Lunch End: </label>
             <input type="time" value ="12:30" id="lunchEnd" required>
             <br>
+        </div>
+        <div>
+            <input style="text-align: center; vertical-align: middle;" type="checkbox" id="noLunch" name="noLunch">
+            <label style="font-size: x-large;"for="noLunch" id="lunchText">No Lunch Today?</label>
         </div>
         <div style="padding-top: 15px;">
             <label for="shiftTime">Shift Length: </label>
