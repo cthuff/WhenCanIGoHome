@@ -163,7 +163,7 @@
         else {
             document.getElementById("lunchText").innerText = "No Lunch Today?";
             lunchStart.value = "12:00";
-            lunchEnd.value = lunchStart.value + 30;
+            lunchEnd.value = "12:30";
         }
     }
 
