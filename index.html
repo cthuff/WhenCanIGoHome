@@ -15,7 +15,7 @@
 <form id="form">
     <div style="text-align: center;">
         <div style="padding-top: 10px;">
-            <label for="startTime">Start time: </label>
+            <label for="startTime">Start Time: </label>
             <input type="time" value="08:00" id="startTime" style="font-size: medium;" required>
         </div>
         <div style="padding-top: 15px;">
@@ -26,7 +26,8 @@
             <input type="time" value ="12:30" id="lunchEnd" required>
             <br>
         </div>
-        <div>
+        <div style="padding-bottom: 5px;">
+            <div>
             <input style="text-align: center; vertical-align: middle;" type="checkbox" id="noLunch" name="noLunch">
             <label style="font-size: x-large;"for="noLunch" id="lunchText">No Lunch Today?</label>
         </div>
@@ -53,7 +54,9 @@
         <div>
             <button id="darkMode" onclick="toggle()">LightMode</button>
         </div>
-        
+        <div>
+        <p id="log"></p>
+    </div>
     </div>
 </footer>
 <script src="wcigh.js"></script>

@@ -9,9 +9,8 @@
         dark = false;
     }
     //Handles Toggling between Dark and Light Mode
-    function toggle(){
-        if (dark == true)
-        {
+    function toggle() {
+        if (dark == true) {
             document.getElementById("darkMode").innerText = "DarkMode"
             lightMode();
         } else {
@@ -52,13 +51,14 @@
     var noLunch = document.getElementById("noLunch");
 
     //Listerners for each of the inputs to change the code immediatly when new entries are given
+    // window.addEventListener('keydown', function(e) {if(e.key == 'r') window.location.reload(); }, false);
+    window.addEventListener('keydown', function(e) {if(e.key == 'r') logic(); }, false);
     startTime.addEventListener("input", function() { logic(); }, false);
-    // lunchStart.addEventListener("input", function() { logic(); }, false);
-    lunchStart.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; logic(); }}, false);
-    lunchEnd.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; logic(); }}, false);
-    // lunchEnd.addEventListener("input", function() { logic(); }, false);
+    lunchStart.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; noLunchFunc(); logic(); }}, false);
+    lunchEnd.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; noLunchFunc(); logic(); }}, false);
     shiftTime.addEventListener("input", function() { logic(); }, false);
-    noLunch.addEventListener("change", function() { noLunchFunc(); }, false);
+    noLunch.addEventListener("input", function() { noLunchFunc(); logic();}, false);
+    window.addEventListener('keydown', function(e) {if(e.key == 'n') noLunch.click(); noLunchFunc(); }, false);
 
     //Calls the two functions to modify the text on when they can clock out and time remaining
     function logic(){
@@ -150,13 +150,21 @@
         }
     }
 
-    //
+    //If the user selects that they don't have a lunch, change the lunch times to be equal ie. no lunch taken
     function noLunchFunc(){
-        if(noLunch.checked == true)
+        if(noLunch.checked == true) {
             document.getElementById("lunchText").innerText = "No Lunch Today";
-        else 
+            lunchStart.value = "12:00";
+            lunchEnd.value = "12:00";
+        }
+        else if(lunchEnd.value != lunchStart.value){
             document.getElementById("lunchText").innerText = "No Lunch Today?";
-        lunchEnd.value = lunchStart.value;
+        }
+        else {
+            document.getElementById("lunchText").innerText = "No Lunch Today?";
+            lunchStart.value = "12:00";
+            lunchEnd.value = lunchStart.value + 30;
+        }
     }
 
 //This loads the time when the page first appears 
