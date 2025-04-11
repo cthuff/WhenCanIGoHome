@@ -51,14 +51,25 @@
     var noLunch = document.getElementById("noLunch");
 
     //Listerners for each of the inputs to change the code immediatly when new entries are given
-    // window.addEventListener('keydown', function(e) {if(e.key == 'r') window.location.reload(); }, false);
     window.addEventListener('keydown', function(e) {if(e.key == 'r') logic(); }, false);
     startTime.addEventListener("input", function() { logic(); }, false);
     lunchStart.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; noLunchFunc(); logic(); }}, false);
     lunchEnd.addEventListener("input", function() { if (lunchEnd.value == lunchStart.value) logic(); else { noLunch.checked = false; noLunchFunc(); logic(); }}, false);
     shiftTime.addEventListener("input", function() { logic(); }, false);
     noLunch.addEventListener("input", function() { noLunchFunc(); logic();}, false);
+    // Add an event listener for the "N" key to toggle the No Lunch Button input field
     window.addEventListener('keydown', function(e) {if(e.key == 'n') noLunch.click(); noLunchFunc(); }, false);
+    // Add an event listener for the "C" key to fill the current time into the focused input field
+    window.addEventListener('keydown', function (e) {
+        if (e.key === 'c' || e.key === 'C') {
+            const focusedElement = document.activeElement;
+            if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
+                const date = new Date();
+                focusedElement.value = (date.getHours() < 10 ? "0" : "") + date.getHours() + ":" + date.getMinutes();   
+                logic(); // Recalculate logic after updating the field
+            }
+        }
+        }, false);
 
     //Calls the two functions to modify the text on when they can clock out and time remaining
     function logic(){
@@ -67,7 +78,7 @@
         var time = timeString(totalSeconds);
         clockOutSpan.innerText = time;
         //gets the current time to compare to the total shift time
-        let date = new Date();
+        //let date = new Date();
         let now = currentTime();
          //clears the previous timer that's running to prepare a new one 
         (totalSeconds - now) > 0 ? timer = setInterval(function() {timeRemaining.innerText = remaining(totalSeconds - now); logic();}, 400) : timeRemaining.innerText = "0:00:00";
@@ -141,9 +152,7 @@
 
     //Calculates if the client can go home based on the current time and their clockout time 
     function goHome() {
-            let date = new Date();
-            let now = (date.getHours() * 3600) + (date.getMinutes() * 60);
-            if((totalSeconds - now) < 60) {
+            if((totalSeconds - currentTime()) < 60) {
             alert("Get the fuck out of here!");
         } else {
             alert("Sorry, you're stuck here");

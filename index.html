@@ -48,6 +48,18 @@
 </body>
 <footer>
     <div style="text-align: center;">
+        <p style="font-size: small;"><a id="help" style="color: #82EC5A; cursor: pointer;" onclick="toggleHelp()">Help?</a></p>
+        <div id="helpText" style="display: none; font-size: small;">
+            <p>Press "R" to reload the clock.</p>
+            <p>Press "C" to set the input to the current time.</p>
+            <p>Press "N" to toggle "No Lunch" option.</p>
+        </div>
+        <script>
+            function toggleHelp() {
+                const helpText = document.getElementById('helpText');
+                helpText.style.display = helpText.style.display === 'none' ? 'block' : 'none';
+            }
+        </script>
         <p style="font-size: small;">Made by <a id = "webpage" style="color: #82EC5A;" href="https://craighuff.com" target="_blank"> Craig Huff</a></p>
         <p style="font-size: small;"> <a id = "file" style="color: #82EC5A;" href="https://github.com/cthuff/WhenCanIGoHome/releases" target="_blank">Download </a></p>
         <br>
