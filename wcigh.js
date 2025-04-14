@@ -65,7 +65,7 @@
             const focusedElement = document.activeElement;
             if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
                 const date = new Date();
-                focusedElement.value = (date.getHours() < 10 ? "0" : "") + date.getHours() + ":" + date.getMinutes();   
+                focusedElement.value = (date.getHours() < 10 ? "0" : "") + date.getHours() + ":" + (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();   
                 logic(); // Recalculate logic after updating the field
             }
         }
