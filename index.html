@@ -1,55 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-    <meta name="apple-mobile-web-app-title" content="When Can I Go Home?">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="/myicon.icns">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta http-equiv="Cache-control" content="public"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self' ">
-    <meta name="viewport" content="device-width, initial-scale=1.0 maximum-scale=2.0">
-    <head>
+<meta name="apple-mobile-web-app-title" content="When Can I Go Home?">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="/myicon.icns">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Cache-control" content="public">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Security-Policy"
+    content="script-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self' ">
+<meta name="viewport" content="device-width, initial-scale=1.0 maximum-scale=2.0">
+
+<head>
     <title>When Can I Go Home?</title>
-        <link href="screenMode.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    </head>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="screenMode.css" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
 <body>
-<form id="form">
-    <div style="text-align: center;">
-        <div style="padding-top: 10px;">
-            <label for="startTime">Start Time: </label>
-            <input type="time" value="08:00" id="startTime" style="font-size: medium;" required>
-        </div>
-        <div style="padding-top: 15px;">
-            <label for="lunchStart">Lunch Start: </label>
-            <input type="time" value="12:00" id="lunchStart" required>
-            <br>
-            <label for="lunchEnd">Lunch End: </label>
-            <input type="time" value ="12:30" id="lunchEnd" required>
-            <br>
-        </div>
-        <div style="padding-bottom: 5px;">
-            <div>
-            <input style="text-align: center; vertical-align: middle;" type="checkbox" id="noLunch" name="noLunch">
-            <label style="font-size: x-large;"for="noLunch" id="lunchText">No Lunch Today?</label>
-        </div>
-        <div style="padding-top: 15px;">
-            <label for="shiftTime">Shift Length: </label>
-            <input type="number" min="1" max="12" value="8" id="shiftTime">
-        </div>
-        <p>
-        You can go home at <span id="clockOut" style="color: cyan;">n/a</span>.
-        <br>
-        Time Remaining: <span id="timeRemaining" style="color: #C45AEC;">0:00:00</span>
-        </p>
-        <div>
-            <button style="font-size: 15px;" id="canIGoHome" onclick="goHome()">Can I Go Home?</button>
-        </div>
-    </div>
-  </form>
+    <form id="form">
+        <div style="text-align: center;">
+            <div style="padding-top: 10px;">
+                <label for="startTime">Start Time: </label>
+                <input type="time" value="08:00" id="startTime" style="font-size: medium;" required>
+            </div>
+            <div style="padding-top: 15px;">
+                <label for="lunchStart">Lunch Start: </label>
+                <input type="time" value="12:00" id="lunchStart" required>
+                <br>
+                <label for="lunchEnd">Lunch End: </label>
+                <input type="time" value="12:30" id="lunchEnd" required>
+                <br>
+            </div>
+            <div style="padding-bottom: 5px;">
+                <div>
+                    <input style="text-align: center; vertical-align: middle;" type="checkbox" id="noLunch"
+                        name="noLunch">
+                    <label style="font-size: x-large;" for="noLunch" id="lunchText">No Lunch Today?</label>
+                </div>
+                <div style="padding-top: 15px;">
+                    <label for="shiftTime">Shift Length: </label>
+                    <input type="number" min="1" max="12" value="8" id="shiftTime">
+                </div>
+                <p>
+                    You can go home at <span id="clockOut" style="color: cyan;">n/a</span>.
+                    <br>
+                    Time Remaining: <span id="timeRemaining" style="color: #C45AEC;">0:00:00</span>
+                </p>
+                <div>
+                    <button style="font-size: 15px;" id="canIGoHome" onclick="goHome()">Can I Go Home?</button>
+                </div>
+            </div>
+    </form>
 </body>
 <footer>
     <div style="text-align: center;">
-        <p style="font-size: small;"><a id="help" style="color: #82EC5A; cursor: pointer;" onclick="toggleHelp()">Help?</a></p>
-        <div id="helpText" style="display: none; font-size: small;">
+        <p style="font-size: medium;"><a id="settingsToggle" style="color: #82EC5A; cursor: pointer;"
+                onclick="toggleSettings()">Settings</a></p>
+        <div id="settingsText" style="display: none; font-size: medium;">
+            <table style="margin: 0 auto; border-spacing: 4px 3px;">
+                <tr>
+                    <td style="text-align: right;"><input type="checkbox" id="notifLunchWarnEn" checked></td>
+                    <td style="text-align: left;"><label for="notifLunchWarnEn">Lunch warning</label></td>
+                    <td><input type="number" id="notifLunchWarnMins" value="30" min="1" max="120" style="width: 40px;">
+                    </td>
+                    <td style="text-align: left;">min before</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><input type="checkbox" id="notifLunchCloseEn" checked></td>
+                    <td style="text-align: left;"><label for="notifLunchCloseEn">Lunch starting soon</label></td>
+                    <td><input type="number" id="notifLunchCloseMins" value="5" min="1" max="60" style="width: 40px;">
+                    </td>
+                    <td style="text-align: left;">min before</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><input type="checkbox" id="notifShiftWarnEn" checked></td>
+                    <td style="text-align: left;"><label for="notifShiftWarnEn">Shift end warning</label></td>
+                    <td><input type="number" id="notifShiftWarnMins" value="5" min="1" max="60" style="width: 40px;">
+                    </td>
+                    <td style="text-align: left;">min before</td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;"><input type="checkbox" id="notifShiftEndEn" checked></td>
+                    <td style="text-align: left;"><label for="notifShiftEndEn">Notify at shift end</label></td>
+                    <td><input type="number" id="notifShiftEndMins" value="0" min="0" max="60" style="width: 40px;">
+                    </td>
+                    <td style="text-align: left;">min before</td>
+                </tr>
+            </table>
+        </div>
+        <p style="font-size: medium;"><a id="help" style="color: #82EC5A; cursor: pointer;"
+                onclick="toggleHelp()">Help?</a></p>
+        <div id="helpText" style="display: none; font-size: medium;">
             <p>Press "R" to reload the clock.</p>
             <p>Press "C" to set the input to the current time.</p>
             <p>Press "N" to toggle "No Lunch" option.</p>
@@ -59,9 +100,15 @@
                 const helpText = document.getElementById('helpText');
                 helpText.style.display = helpText.style.display === 'none' ? 'block' : 'none';
             }
+            function toggleSettings() {
+                const settingsText = document.getElementById('settingsText');
+                settingsText.style.display = settingsText.style.display === 'none' ? 'block' : 'none';
+            }
         </script>
-        <p style="font-size: small;">Made by <a id = "webpage" style="color: #82EC5A;" href="https://craighuff.com" target="_blank"> Craig Huff</a></p>
-        <p style="font-size: small;"> <a id = "file" style="color: #82EC5A;" href="https://github.com/cthuff/WhenCanIGoHome/releases" target="_blank">Download </a></p>
+        <p style="font-size: medium;">Made by <a id="webpage" style="color: #82EC5A;" href="https://craighuff.com"
+                target="_blank"> Craig Huff</a></p>
+        <p style="font-size: medium;"> <a id="file" style="color: #82EC5A;"
+                href="https://github.com/cthuff/WhenCanIGoHome/releases" target="_blank">Download </a></p>
         <br>
         <div>
             <button id="darkMode" onclick="toggle()">LightMode</button>
@@ -69,4 +116,5 @@
     </div>
 </footer>
 <script src="wcigh.js"></script>
+
 </html>

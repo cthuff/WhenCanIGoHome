@@ -1,0 +1,16 @@
+
+<input placeholder="Click here, then press down a key." size="40" />
+<p id="log"></p>
+
+<script>
+
+window.addEventListener('keydown', logKey);
+
+function logKey(e) {
+
+    if(e.key == 'r'){
+        log.textContent += ` ${e.key}`;
+        window.location.reload();
+    }
+}
+</script>
