@@ -64,8 +64,16 @@ if (Notification.permission === 'default') Notification.requestPermission();
 // Listeners: recalculate whenever any input changes
 window.addEventListener('keydown', function (e) { if (e.key === 'r') logic(); }, false);
 startTime.addEventListener("input", function () { updateLunchTimes(); logic(); }, false);
-lunchStart.addEventListener("input", function () { noLunch.checked = false; noLunchFunc(); logic(); }, false);
-lunchEnd.addEventListener("input", function () { noLunch.checked = false; noLunchFunc(); logic(); }, false);
+lunchStart.addEventListener("input", function () {
+    noLunch.checked = false;
+    document.getElementById("lunchText").innerText = "No Lunch Today?";
+    logic();
+}, false);
+lunchEnd.addEventListener("input", function () {
+    noLunch.checked = false;
+    document.getElementById("lunchText").innerText = "No Lunch Today?";
+    logic();
+}, false);
 shiftTime.addEventListener("input", function () {
     const hrs = parseFloat(shiftTime.value);
     if (!isNaN(hrs)) {
