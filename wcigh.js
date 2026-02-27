@@ -57,8 +57,10 @@ const noLunch = document.getElementById("noLunch");
 // Resets whenever logic() recalculates (i.e. inputs changed)
 const notifFired = { lunchWarn: false, lunchClose: false, shiftWarn: false, shiftEnd: false };
 
-// Request browser notification permission as early as possible
-if (Notification.permission === 'default') Notification.requestPermission();
+// Request browser notification permission as early as possible if supported
+if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+}
 
 
 // Listeners: recalculate whenever any input changes
@@ -266,8 +268,8 @@ document.onsubmit = function (event) {
 
 // Sends a browser notification if permission is granted
 function sendNotification(title, body) {
-    if (Notification.permission === 'granted') {
-        new Notification(title, { body: body, icon: 'myicon.icns' });
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, { body: body, icon: 'favicon.png' });
     }
 }
 
