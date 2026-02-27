@@ -12,6 +12,7 @@
 
 <head>
     <title>When Can I Go Home?</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="screenMode.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
@@ -59,28 +60,28 @@
         <div id="settingsText" style="display: none; font-size: medium;">
             <table style="margin: 0 auto; border-spacing: 4px 3px;">
                 <tr>
-                    <td style="text-align: right;"><input type="checkbox" id="notifLunchWarnEn" checked></td>
+                    <td style="text-align: right;"><input type="checkbox" id="notifLunchWarnEn"></td>
                     <td style="text-align: left;"><label for="notifLunchWarnEn">Lunch warning</label></td>
                     <td><input type="number" id="notifLunchWarnMins" value="30" min="1" max="120" style="width: 40px;">
                     </td>
                     <td style="text-align: left;">min before</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right;"><input type="checkbox" id="notifLunchCloseEn" checked></td>
+                    <td style="text-align: right;"><input type="checkbox" id="notifLunchCloseEn"></td>
                     <td style="text-align: left;"><label for="notifLunchCloseEn">Lunch starting soon</label></td>
                     <td><input type="number" id="notifLunchCloseMins" value="5" min="1" max="60" style="width: 40px;">
                     </td>
                     <td style="text-align: left;">min before</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right;"><input type="checkbox" id="notifShiftWarnEn" checked></td>
+                    <td style="text-align: right;"><input type="checkbox" id="notifShiftWarnEn"></td>
                     <td style="text-align: left;"><label for="notifShiftWarnEn">Shift end warning</label></td>
                     <td><input type="number" id="notifShiftWarnMins" value="5" min="1" max="60" style="width: 40px;">
                     </td>
                     <td style="text-align: left;">min before</td>
                 </tr>
                 <tr>
-                    <td style="text-align: right;"><input type="checkbox" id="notifShiftEndEn" checked></td>
+                    <td style="text-align: right;"><input type="checkbox" id="notifShiftEndEn"></td>
                     <td style="text-align: left;"><label for="notifShiftEndEn">Notify at shift end</label></td>
                     <td><input type="number" id="notifShiftEndMins" value="0" min="0" max="60" style="width: 40px;">
                     </td>

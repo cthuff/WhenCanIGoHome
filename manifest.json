@@ -1,0 +1,16 @@
+{
+    "name": "When Can I Go Home?",
+    "short_name": "Go Home?",
+    "description": "A simple punch clock to track when your shift is over.",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#1a1a2e",
+    "theme_color": "#C45AEC",
+    "icons": [
+        {
+            "src": "favicon.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        }
+    ]
+}

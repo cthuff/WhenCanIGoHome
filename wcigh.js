@@ -57,10 +57,6 @@ const noLunch = document.getElementById("noLunch");
 // Resets whenever logic() recalculates (i.e. inputs changed)
 const notifFired = { lunchWarn: false, lunchClose: false, shiftWarn: false, shiftEnd: false };
 
-// Request browser notification permission as early as possible if supported
-if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-}
 
 
 // Listeners: recalculate whenever any input changes
@@ -252,7 +248,16 @@ function loadSettings() {
 
 // Save whenever any setting changes
 SETTINGS_FIELDS.forEach(function (f) {
-    document.getElementById(f.id).addEventListener('change', saveSettings);
+    document.getElementById(f.id).addEventListener('change', function () {
+        saveSettings();
+        // If the user just checked an "Enable" checkbox, ask for permissions!
+        // This direct user interaction satisfies iOS permission requirements.
+        if (f.type === 'checkbox' && document.getElementById(f.id).checked === true) {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+    });
 });
 
 // Kick off the initial calculation on page load
@@ -263,6 +268,15 @@ document.onsubmit = function (event) {
     // Prevent form submission/page reload when Enter is pressed
     event.preventDefault();
 };
+
+// Register Service Worker for PWA functionality (required for iOS Push Notifications)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (err) {
+            console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+}
 
 // ----- Notification helpers -----
 
