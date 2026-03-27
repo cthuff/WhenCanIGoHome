@@ -163,11 +163,11 @@ function updateLunchTimer() {
     }
 }
 
-// Sets lunch start to startTime+5h and lunch end to startTime+5.5h
+// Sets lunch start to startTime+4.5h and lunch end to startTime+5.0h
 function updateLunchTimes() {
     const startSecs = timeValue(startTime.value);
-    lunchStart.value = secsToTimeInput(startSecs + 5 * 3600);
-    lunchEnd.value = secsToTimeInput(startSecs + 5.5 * 3600);
+    lunchStart.value = secsToTimeInput(startSecs + 4.5 * 3600);
+    lunchEnd.value = secsToTimeInput(startSecs + 5.0 * 3600);
     // Uncheck "No Lunch" since lunch times are now meaningful
     noLunch.checked = false;
     document.getElementById("lunchText").innerText = "No Lunch Today?";
