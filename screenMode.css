@@ -15,3 +15,16 @@ body {
 input {
     font-size: medium;
 }
+
+#lunchTimerContainer {
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    max-height: 50px;
+}
+
+#lunchTimerContainer.hidden {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0 !important;
+}

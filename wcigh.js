@@ -25,6 +25,7 @@ function darkMode() {
     document.getElementById("file").style.color = "#82EC5A";
     document.getElementById("settingsToggle").style.color = "#82EC5A";
     document.getElementById("help").style.color = "#82EC5A";
+    document.getElementById("lunchTimeRemaining").style.color = "#FFC521"; // Bright Neon Gold for Dark Mode
     document.body.className = "dark-mode";
     dark = true;
 }
@@ -36,6 +37,7 @@ function lightMode() {
     document.getElementById("file").style.color = "#3A940E";
     document.getElementById("settingsToggle").style.color = "#3A940E";
     document.getElementById("help").style.color = "#3A940E";
+    document.getElementById("lunchTimeRemaining").style.color = "#E5B122"; // Bright Neon Gold for Dark Mode
     document.body.className = "light-mode";
     dark = false;
 }
@@ -52,6 +54,8 @@ const shiftTime = document.getElementById("shiftTime");
 const clockOutSpan = document.getElementById("clockOut");
 const timeRemaining = document.getElementById("timeRemaining");
 const noLunch = document.getElementById("noLunch");
+const lunchTimerContainer = document.getElementById("lunchTimerContainer");
+const lunchTimeRemaining = document.getElementById("lunchTimeRemaining");
 
 // Notification state — tracks which alerts have already fired this session
 // Resets whenever logic() recalculates (i.e. inputs changed)
@@ -117,12 +121,15 @@ function logic() {
         + (shiftTime.value * 3600);
     clockOutSpan.innerText = timeString(totalSeconds);
 
+    updateLunchTimer();
+
     const now = currentTime();
     const secondsLeft = totalSeconds - now;
     if (secondsLeft > 0) {
         timeRemaining.innerText = remaining(secondsLeft);
         timer = setInterval(function () {
             const left = totalSeconds - currentTime();
+            updateLunchTimer();
             if (left <= 0) {
                 clearInterval(timer);
                 timeRemaining.innerText = "0:00:00";
@@ -134,6 +141,25 @@ function logic() {
         }, 1000);
     } else {
         timeRemaining.innerText = "0:00:00";
+    }
+}
+
+// Updates the countdown timer until the start of lunch
+function updateLunchTimer() {
+    if (noLunch.checked) {
+        lunchTimerContainer.classList.add("hidden");
+        return;
+    }
+
+    lunchTimerContainer.classList.remove("hidden");
+    const now = currentTime();
+    const lunchStartSecs = timeValue(lunchStart.value);
+    const secsUntilLunch = lunchStartSecs - now;
+
+    if (secsUntilLunch > 0) {
+        lunchTimeRemaining.innerText = remaining(secsUntilLunch);
+    } else {
+        lunchTimeRemaining.innerText = "0:00:00";
     }
 }
 

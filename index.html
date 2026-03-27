@@ -31,12 +31,15 @@
                 <label for="lunchEnd">Lunch End: </label>
                 <input type="time" value="12:30" id="lunchEnd" required>
                 <br>
+                <div id="lunchTimerContainer" style="margin-top:5px; font-size: small;">
+                    Time until lunch: <span id="lunchTimeRemaining" style="color: #ECC55A;">0:00:00</span>
+                </div>
             </div>
             <div style="padding-bottom: 5px;">
                 <div>
                     <input style="text-align: center; vertical-align: middle;" type="checkbox" id="noLunch"
                         name="noLunch">
-                    <label style="font-size: x-large;" for="noLunch" id="lunchText">No Lunch Today?</label>
+                    <label style="font-size: medium;" for="noLunch" id="lunchText">No Lunch Today?</label>
                 </div>
                 <div style="padding-top: 15px;">
                     <label for="shiftTime">Shift Length: </label>
